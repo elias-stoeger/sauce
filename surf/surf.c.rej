@@ -1,0 +1,11 @@
+--- surf.c
++++ surf.c
+@@ -347,6 +354,8 @@ setup(void)
+ 	scriptfile = buildfile(scriptfile);
+ 	cachedir   = buildpath(cachedir);
+ 	certdir    = buildpath(certdir);
++	dlstatus   = buildpath(dlstatus);
++	dldir      = buildpath(dldir);
+ 
+ 	gdkkb = gdk_seat_get_keyboard(gdk_display_get_default_seat(gdpy));
+ 
