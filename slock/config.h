@@ -1,11 +1,11 @@
 /* user and group to drop privileges to */
 static const char *user  = "krixec";
-static const char *group = "nogroup";
+static const char *group = "krixec";
 
 static const char *colorname[NUMCOLS] = {
 	[INIT] =   "black",     /* after initialization */
-	[INPUT] =  "#005577",   /* during input */
-	[FAILED] = "#CC3333",   /* wrong password */
+	[INPUT] =  "#81a1c1",   /* during input */
+	[FAILED] = "#bf616a",   /* wrong password */
 };
 
 /* treat a cleared input like a wrong password (color) */
@@ -18,7 +18,7 @@ static const int timeoffset = 60;
 static const int runonce = 1;
 
 /* command to be run after [time] has passed */
-static const char *command = "doas zzz";
+static const char *command = "doas zzz -H";
 
 /* insert grid pattern with scale 1:1, the size can be changed with logosize */
 static const int logosize = 75;
