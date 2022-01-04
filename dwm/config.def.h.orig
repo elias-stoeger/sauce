@@ -23,11 +23,22 @@ static const char col_yellow2[]	    = "#feb236";
 static const char nord_orange[]	    = "#d08770";
 static const char nord_yellow[]	    = "#ebcb8b";
 static const char nord_gray[]	    = "#242933";
+static const char nord_gray2[]	    = "#434c5e";
 
 static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, nord_gray },
-	[SchemeSel]  = { col_gray4, col_cyan,  nord_orange },
+	/*               	     fg         bg         border   */
+	[SchemeNorm] 		= { col_gray3, col_gray1, nord_gray },
+	[SchemeSel]  		= { col_gray4, col_cyan,  nord_yellow },
+	// Statusbar right {text, background, not used but cannot be empty}
+	[SchemeStatus]  	= { nord_orange, nord_gray,  "#000000"  },
+	// Tagbar left selected {text,background, not used but cannot be empty}
+	[SchemeTagsSel]  	= { nord_gray, nord_orange,  "#000000"  },        
+	// Tagbar left unselected {text,background, not used but cannot be empty}
+	[SchemeTagsNorm]  	= { nord_orange, nord_gray,  "#000000"  },
+	// infobar middle  selected {text,background, not used but cannot be empty}
+	[SchemeInfoSel]		= { nord_gray, nord_yellow,  "#000000"  }, 	
+	// infobar middle  unselected {text,background, not used but cannot be empty}
+	[SchemeInfoNorm]  	= { nord_yellow, nord_gray,  "#000000"  }, 
 };
 
 /* tagging */
@@ -85,7 +96,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, 
-				  "-hp", "qutebrowser,telegram-desktop,kdeconnect-app,surf", NULL };
+				  "-hp", "qutebrowser,telegram-desktop,kdeconnect-app,surf,pavucontrol,blueman-manager", NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *browsercmd[] = { "qutebrowser", NULL };
 static const char *telegram[] = { "telegram-desktop", NULL };
@@ -96,7 +107,16 @@ static const char *volume[3][5] = { { "pactl", "set-sink-volume", "@DEFAULT_SINK
 				    { "pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL } };
 static const char *mute[] = { "amixer", "set", "Capture", "toggle", NULL };
 static const char *lock[] = { "slock", NULL };
+static const char *bluetooth[] = { "bluetoothctl", "power", "on", NULL };
+static const char *bluetooth_man[] = { "blueman-manager", NULL };
+static const char *bluetooth_herb[] = { "herbe", "Bluetooth angeschalten", NULL };
+static const char *bluetooth_off[] = { "bluetoothctl", "power", "off", NULL };
+static const char *bluetooth_off_herb[] = { "herbe", "Bluetooth ausgeschalten", NULL };
+static const char *kde_connect[] = { "kdeconnect-cli", "--pair", "-d", "91afe99f5186ager", NULL };
+static const char *kde_connect_herb[] = { "herbe", "Suche Verbindung mit Handy ...", NULL };
+static const char *print[] = { "scrot", "-s", "Desktop/screenshot.png", NULL };
 
+#include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
@@ -113,6 +133,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = +0.25} },
 	{ MODKEY|ShiftMask,             XK_l,      setcfact,       {.f = -0.25} },
 	{ MODKEY|ShiftMask,             XK_o,      setcfact,       {.f =  0.00} },
+	{ MODKEY|ShiftMask,		XK_j,	   movestack,	   {.i = +1 } },
+	{ MODKEY|ShiftMask,		XK_k,	   movestack,	   {.i = -1 } },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY|Mod4Mask,              XK_u,      incrgaps,       {.i = +1 } },
 	{ MODKEY|Mod4Mask|ShiftMask,    XK_u,      incrgaps,       {.i = -1 } },
@@ -159,7 +181,17 @@ static Key keys[] = {
 	{0, 		XF86XK_AudioLowerVolume,   spawn,	   {.v=volume[1]} },
 	{0, 		XF86XK_AudioMute,	   spawn,	   {.v=volume[2]} },
 	{0, 		XF86XK_AudioMicMute,	   spawn,	   {.v=mute} },
+			/* F9 */
 	{0, 		XF86XK_Tools,		   spawn,	   {.v=lock} },
+	{0, 		XF86XK_Bluetooth,	   spawn,	   {.v=bluetooth} },
+	{0, 		XF86XK_Bluetooth,	   spawn,	   {.v=bluetooth_man} },
+	{0, 		XF86XK_Bluetooth,	   spawn,	   {.v=bluetooth_herb} },
+	{ShiftMask, 	XF86XK_Bluetooth,	   spawn,	   {.v=bluetooth_off} },
+	{ShiftMask, 	XF86XK_Bluetooth,	   spawn,	   {.v=bluetooth_off_herb} },
+			/* F7 */
+	{0, 		XF86XK_Display, 	   spawn,	   {.v=kde_connect} },
+	{0, 		XF86XK_Display, 	   spawn,	   {.v=kde_connect_herb} },
+	{0, 		XK_Print,	 	   spawn,	   {.v=print} },
 };
 
 /* button definitions */

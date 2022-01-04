@@ -10,6 +10,8 @@ static const unsigned int gappov    = 45;       /* vert outer gap between window
 static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 0;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
+static const int vertpad            = 0;       /* vertical padding of bar */
+static const int sidepad            = 45;       /* horizontal padding of bar */
 static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222";
@@ -23,11 +25,23 @@ static const char col_yellow2[]	    = "#feb236";
 static const char nord_orange[]	    = "#d08770";
 static const char nord_yellow[]	    = "#ebcb8b";
 static const char nord_gray[]	    = "#242933";
+static const char nord_gray2[]	    = "#3b4252";
+static const char nord_gray3[]	    = "#434c5e";
 
 static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, nord_gray },
-	[SchemeSel]  = { col_gray4, col_cyan,  nord_orange },
+	/*               	     fg         bg         border   */
+	[SchemeNorm] 		= { col_gray3, col_gray1, nord_gray },
+	[SchemeSel]  		= { col_gray4, col_cyan,  nord_yellow },
+	// Statusbar right {text, background, not used but cannot be empty}
+	[SchemeStatus]  	= { nord_orange, nord_gray,  "#000000"  },
+	// Tagbar left selected {text,background, not used but cannot be empty}
+	[SchemeTagsSel]  	= { nord_gray, nord_orange,  "#000000"  },        
+	// Tagbar left unselected {text,background, not used but cannot be empty}
+	[SchemeTagsNorm]  	= { nord_orange, nord_gray,  "#000000"  },
+	// infobar middle  selected {text,background, not used but cannot be empty}
+	[SchemeInfoSel]		= { nord_yellow, nord_gray2,  "#000000"  }, 	
+	// infobar middle  unselected {text,background, not used but cannot be empty}
+	[SchemeInfoNorm]  	= { nord_yellow, nord_gray,  "#000000"  }, 
 };
 
 /* tagging */
@@ -85,7 +99,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, 
-				  "-hp", "qutebrowser,telegram-desktop,kdeconnect-app,surf", NULL };
+				  "-hp", "qutebrowser,telegram-desktop,kdeconnect-app,surf,pavucontrol,blueman-manager", NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *browsercmd[] = { "qutebrowser", NULL };
 static const char *telegram[] = { "telegram-desktop", NULL };
@@ -96,6 +110,14 @@ static const char *volume[3][5] = { { "pactl", "set-sink-volume", "@DEFAULT_SINK
 				    { "pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL } };
 static const char *mute[] = { "amixer", "set", "Capture", "toggle", NULL };
 static const char *lock[] = { "slock", NULL };
+static const char *bluetooth[] = { "bluetoothctl", "power", "on", NULL };
+static const char *bluetooth_man[] = { "blueman-manager", NULL };
+static const char *bluetooth_herb[] = { "herbe", "Bluetooth angeschalten", NULL };
+static const char *bluetooth_off[] = { "bluetoothctl", "power", "off", NULL };
+static const char *bluetooth_off_herb[] = { "herbe", "Bluetooth ausgeschalten", NULL };
+static const char *kde_connect[] = { "kdeconnect-cli", "--pair", "-d", "91afe99f5186ager", NULL };
+static const char *kde_connect_herb[] = { "herbe", "Suche Verbindung mit Handy ...", NULL };
+static const char *print[] = { "scrot", "-s", "Desktop/screenshot.png", NULL };
 
 #include "movestack.c"
 static Key keys[] = {
@@ -162,7 +184,17 @@ static Key keys[] = {
 	{0, 		XF86XK_AudioLowerVolume,   spawn,	   {.v=volume[1]} },
 	{0, 		XF86XK_AudioMute,	   spawn,	   {.v=volume[2]} },
 	{0, 		XF86XK_AudioMicMute,	   spawn,	   {.v=mute} },
+			/* F9 */
 	{0, 		XF86XK_Tools,		   spawn,	   {.v=lock} },
+	{0, 		XF86XK_Bluetooth,	   spawn,	   {.v=bluetooth} },
+	{0, 		XF86XK_Bluetooth,	   spawn,	   {.v=bluetooth_man} },
+	{0, 		XF86XK_Bluetooth,	   spawn,	   {.v=bluetooth_herb} },
+	{ShiftMask, 	XF86XK_Bluetooth,	   spawn,	   {.v=bluetooth_off} },
+	{ShiftMask, 	XF86XK_Bluetooth,	   spawn,	   {.v=bluetooth_off_herb} },
+			/* F7 */
+	{0, 		XF86XK_Display, 	   spawn,	   {.v=kde_connect} },
+	{0, 		XF86XK_Display, 	   spawn,	   {.v=kde_connect_herb} },
+	{0, 		XK_Print,	 	   spawn,	   {.v=print} },
 };
 
 /* button definitions */
