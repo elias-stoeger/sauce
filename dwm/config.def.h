@@ -10,10 +10,10 @@ static const unsigned int gappov    = 45;       /* vert outer gap between window
 static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 0;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const int vertpad            = 0;       /* vertical padding of bar */
+static const int vertpad            = 0;       	/* vertical padding of bar */
 static const int sidepad            = 45;       /* horizontal padding of bar */
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
+static const char *fonts[]          = { "IBM Plex Mono:size=10" };
+static const char dmenufont[]       = "IBM Plex Mono:size=10";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -27,21 +27,23 @@ static const char nord_yellow[]	    = "#ebcb8b";
 static const char nord_gray[]	    = "#242933";
 static const char nord_gray2[]	    = "#3b4252";
 static const char nord_gray3[]	    = "#434c5e";
+static const char nord_blue[]	    = "#81a1c1";
+static const char nord_white[]	    = "#d8dee9";
 
 static const char *colors[][3]      = {
 	/*               	     fg         bg         border   */
 	[SchemeNorm] 		= { col_gray3, col_gray1, nord_gray },
-	[SchemeSel]  		= { col_gray4, col_cyan,  nord_yellow },
+	[SchemeSel]  		= { col_gray4, col_cyan,  nord_white },
 	// Statusbar right {text, background, not used but cannot be empty}
-	[SchemeStatus]  	= { nord_orange, nord_gray,  "#000000"  },
+	[SchemeStatus]  	= { nord_white, nord_gray,  "#000000"  },
 	// Tagbar left selected {text,background, not used but cannot be empty}
-	[SchemeTagsSel]  	= { nord_gray, nord_orange,  "#000000"  },        
+	[SchemeTagsSel]  	= { nord_white, nord_gray3,  "#000000"  },        
 	// Tagbar left unselected {text,background, not used but cannot be empty}
-	[SchemeTagsNorm]  	= { nord_orange, nord_gray,  "#000000"  },
+	[SchemeTagsNorm]  	= { nord_white, nord_gray,  "#000000"  },
 	// infobar middle  selected {text,background, not used but cannot be empty}
-	[SchemeInfoSel]		= { nord_yellow, nord_gray2,  "#000000"  }, 	
+	[SchemeInfoSel]		= { nord_white, nord_gray2,  "#000000"  }, 	
 	// infobar middle  unselected {text,background, not used but cannot be empty}
-	[SchemeInfoNorm]  	= { nord_yellow, nord_gray,  "#000000"  }, 
+	[SchemeInfoNorm]  	= { nord_white, nord_gray,  "#000000"  }, 
 };
 
 /* tagging */
@@ -98,7 +100,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, 
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, 
 				  "-hp", "qutebrowser,telegram-desktop,kdeconnect-app,surf,pavucontrol,blueman-manager", NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *browsercmd[] = { "qutebrowser", NULL };

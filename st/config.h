@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "DejaVu Sans Mono:pixelsize=14:antialias=true:autohint=true";
+static char *font = "IBM Plex Mono:pixelsize=15:antialias=true:autohint=true";
 /* Spare fonts */
 static char *font2[] = {
 /*     "Inconsolata for Powerline:pixelsize=12:antialias=true:autohint=true", */

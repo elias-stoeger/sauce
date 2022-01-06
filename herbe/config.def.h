@@ -1,5 +1,5 @@
 static const char *background_color = "#2e3440";
-static const char *border_color = "#ebcb8b";
+static const char *border_color = "#d8dee9";
 static const char *font_color = "#d8dee9";
 static const char *font_pattern = "Noto Emoji Regular:size=12";
 static const unsigned line_spacing = 5;
