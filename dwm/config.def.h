@@ -47,7 +47,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "1", "2", "3", "4", "5" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -56,7 +56,8 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	//{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	//{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "Blueman-manager", 	NULL,	NULL, 	1 << 5,		0,	-1 },
 };
 
 /* layout(s) */
@@ -101,20 +102,24 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, 
-				  "-hp", "qutebrowser,telegram-desktop,kdeconnect-app,surf,pavucontrol,blueman-manager", NULL };
+				  "-hp", "qutebrowser,kdeconnect-app,surf,pavucontrol,blueman-manager,netflix,teams,element,freetube,signal", NULL };
+static const char *passmenucmd[] = { "/home/krixec/.local/bin/passmenu2", NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *browsercmd[] = { "qutebrowser", NULL };
 static const char *telegram[] = { "telegram-desktop", NULL };
-static const char *brightness[2][4] = { { "xbacklight", "-inc", "10", NULL },
-					{ "xbacklight", "-dec", "10", NULL } };
+static const char *brightness[2][5] = { { "python3", "/home/krixec/Scripts/brightness.py", "inc", "10", NULL },
+					{ "python3", "/home/krixec/Scripts/brightness.py", "dec", "10", NULL } };
+//static const char *brightness[2][4] = { { "xbacklight", "-inc", "10", NULL },
+//					{ "xbacklight", "-dec", "10", NULL } };
 static const char *volume[3][5] = { { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+10%", NULL },
 				    { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-10%", NULL },
 				    { "pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL } };
 static const char *mute[] = { "amixer", "set", "Capture", "toggle", NULL };
-static const char *lock[] = { "slock", NULL };
+static const char *blank[] = { "xset", "dpms", "force", "off", NULL };
+static const char *lock[] = { "xautolock", "-locknow", NULL };
 static const char *bluetooth[] = { "bluetoothctl", "power", "on", NULL };
 static const char *bluetooth_man[] = { "blueman-manager", NULL };
-static const char *bluetooth_herb[] = { "herbe", "Bluetooth angeschalten", NULL };
+static const char *bluetooth_herb[] = { "herbe", "Bluetooth eingeschalten", NULL };
 static const char *bluetooth_off[] = { "bluetoothctl", "power", "off", NULL };
 static const char *bluetooth_off_herb[] = { "herbe", "Bluetooth ausgeschalten", NULL };
 static const char *kde_connect[] = { "kdeconnect-cli", "--pair", "-d", "91afe99f5186ager", NULL };
@@ -125,6 +130,7 @@ static const char *print[] = { "scrot", "-s", "Desktop/screenshot.png", NULL };
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
+	{ MODKEY|ShiftMask,		XK_d,	   spawn,	   {.v = passmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_t,      spawn,          {.v = telegram } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
@@ -187,6 +193,7 @@ static Key keys[] = {
 	{0, 		XF86XK_AudioMute,	   spawn,	   {.v=volume[2]} },
 	{0, 		XF86XK_AudioMicMute,	   spawn,	   {.v=mute} },
 			/* F9 */
+	{0, 		XF86XK_Tools,		   spawn,	   {.v=blank} },
 	{0, 		XF86XK_Tools,		   spawn,	   {.v=lock} },
 	{0, 		XF86XK_Bluetooth,	   spawn,	   {.v=bluetooth} },
 	{0, 		XF86XK_Bluetooth,	   spawn,	   {.v=bluetooth_man} },
