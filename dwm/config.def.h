@@ -107,6 +107,7 @@ static const char *passmenucmd[] = { "/home/krixec/.local/bin/passmenu2", NULL }
 static const char *termcmd[]  = { "st", NULL };
 static const char *browsercmd[] = { "qutebrowser", NULL };
 static const char *telegram[] = { "telegram-desktop", NULL };
+/* since xbacklight was being moody I wrote my own, more relyable script */
 static const char *brightness[2][5] = { { "python3", "/home/krixec/Scripts/brightness.py", "inc", "10", NULL },
 					{ "python3", "/home/krixec/Scripts/brightness.py", "dec", "10", NULL } };
 //static const char *brightness[2][4] = { { "xbacklight", "-inc", "10", NULL },
@@ -125,6 +126,10 @@ static const char *bluetooth_off_herb[] = { "herbe", "Bluetooth ausgeschalten", 
 static const char *kde_connect[] = { "kdeconnect-cli", "--pair", "-d", "91afe99f5186ager", NULL };
 static const char *kde_connect_herb[] = { "herbe", "Suche Verbindung mit Handy ...", NULL };
 static const char *print[] = { "scrot", "-s", "Desktop/screenshot.png", NULL };
+static const char *hdmi_mirror[] = { "xrandr", "--output", "HDMI1", "--mode", "1920x1080", "--same-as", "eDP1", NULL };
+static const char *hdmi_left[] = { "xrandr", "--output", "HDMI1", "--mode", "1920x1080", "--left-of", "eDP1", NULL };
+static const char *hdmi_mirror_herb[] = { "herbe", "Bildschirm gespiegelt", NULL };
+static const char *hdmi_left_herb[] = { "herbe", "Bildschirm links erweitert", NULL };
 
 #include "movestack.c"
 static Key keys[] = {
@@ -200,10 +205,15 @@ static Key keys[] = {
 	{0, 		XF86XK_Bluetooth,	   spawn,	   {.v=bluetooth_herb} },
 	{ShiftMask, 	XF86XK_Bluetooth,	   spawn,	   {.v=bluetooth_off} },
 	{ShiftMask, 	XF86XK_Bluetooth,	   spawn,	   {.v=bluetooth_off_herb} },
-			/* F7 */
-	{0, 		XF86XK_Display, 	   spawn,	   {.v=kde_connect} },
-	{0, 		XF86XK_Display, 	   spawn,	   {.v=kde_connect_herb} },
+			/* F8 */
+	{0, 		XF86XK_WLAN, 		   spawn,	   {.v=kde_connect} },
+	{0, 		XF86XK_WLAN,	 	   spawn,	   {.v=kde_connect_herb} },
 	{0, 		XK_Print,	 	   spawn,	   {.v=print} },
+			/* F7 */
+	{0, 		XF86XK_Display, 	   spawn,	   {.v=hdmi_mirror} },
+	{0, 		XF86XK_Display, 	   spawn,	   {.v=hdmi_mirror_herb} },
+	{ShiftMask, 	XF86XK_Display, 	   spawn,	   {.v=hdmi_left} },
+	{ShiftMask,	XF86XK_Display, 	   spawn,	   {.v=hdmi_left_herb} },
 };
 
 /* button definitions */
