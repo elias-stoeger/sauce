@@ -2,7 +2,7 @@
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
 //static const Gap default_gap        = {.isgap = 1, .realgap = 6, .gappx = 6};
-static const unsigned int snap      = 32;       /* snap pixel */
+static const unsigned int snap      = 10;       /* snap pixel, when to snap to the edge */
 static const unsigned int gappih    = 45;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 45;       /* vert inner gap between windows */
 static const unsigned int gappoh    = 45;       /* horiz outer gap between windows and screen edge */
@@ -130,6 +130,7 @@ static const char *hdmi_mirror[] = { "xrandr", "--output", "HDMI1", "--mode", "1
 static const char *hdmi_left[] = { "xrandr", "--output", "HDMI1", "--mode", "1920x1080", "--left-of", "eDP1", NULL };
 static const char *hdmi_mirror_herb[] = { "herbe", "Bildschirm gespiegelt", NULL };
 static const char *hdmi_left_herb[] = { "herbe", "Bildschirm links erweitert", NULL };
+static const char *hdmi_off[] = { "xrandr", "--output", "HDMI1", "--off", NULL };
 
 #include "movestack.c"
 static Key keys[] = {
@@ -214,6 +215,7 @@ static Key keys[] = {
 	{0, 		XF86XK_Display, 	   spawn,	   {.v=hdmi_mirror_herb} },
 	{ShiftMask, 	XF86XK_Display, 	   spawn,	   {.v=hdmi_left} },
 	{ShiftMask,	XF86XK_Display, 	   spawn,	   {.v=hdmi_left_herb} },
+	{ MODKEY|ShiftMask, XF86XK_Display, 	   spawn,	   {.v=hdmi_off} },
 };
 
 /* button definitions */
